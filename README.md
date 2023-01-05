@@ -1,5 +1,5 @@
 # Buscador de YouTube en Rust 🦀
-Pequena Web App con Rust utilizando o framework Yew para procurar vídeos en YouTube :fa-youtube-square:
+Pequena Web App con Rust utilizando o framework Yew para procurar vídeos en YouTube.
 ------------
 
 ### IDE
