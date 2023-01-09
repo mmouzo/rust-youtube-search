@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 yew = { version = "0.20.0", features = ["csr"]  }
 yew_bulma_components = "0.1.1"
+web-sys = "0.3.60"
+wasm-bindgen = "0.2.83"

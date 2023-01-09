@@ -1089,6 +1089,8 @@ dependencies = [
 name = "youtube-search"
 version = "0.1.0"
 dependencies = [
+ "wasm-bindgen",
+ "web-sys",
  "yew 0.20.0",
  "yew_bulma_components",
 ]
