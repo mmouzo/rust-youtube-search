@@ -1,8 +1,12 @@
+use wasm_bindgen::{JsCast, UnwrapThrowExt};
+use web_sys::{Event, HtmlInputElement, InputEvent};
 use yew::virtual_dom::VNode;
 use yew::{
-    function_component, html, use_state, Callback, Html, InputEvent, MouseEvent, Properties,
+    function_component, html, use_state, Callback, Html, MouseEvent, Properties,
     UseStateHandle,
 };
+
+mod youtube;
 fn main() {
     yew::Renderer::<App>::new().render();
 }
@@ -48,9 +52,15 @@ fn app() -> Html {
 #[function_component(InputSection)]
 fn input_section(props: &InputSectionProps) -> Html {
     let text: UseStateHandle<String> = use_state(|| String::new());
-    let handle_input: Callback<InputEvent> = Callback::from(|_| {
 
-    });
+    let handle_input = {
+        let text = text.clone();
+        Callback::from(move |input_event| {
+            let input_text = get_value_from_input_event(input_event);
+            text.set(input_text);
+        })
+    };
+
     let on_search_pressed: Callback<MouseEvent> = {
         let on_search = props.on_search.clone();
         Callback::from(move |_| on_search.emit(text.to_string()))
@@ -59,7 +69,7 @@ fn input_section(props: &InputSectionProps) -> Html {
     html! {
        <div>
        <h1 class="title">
-       {"Buscardor de YouTube"}
+       {"Buscador de YouTube"}
       </h1>
       <div class="field">
       <label class="label">{"Insire unha palabra"}</label>
@@ -80,7 +90,8 @@ struct InputSectionProps {
 }
 
 fn search_youtube(text: String) -> String {
-    String::from("TODO")
+    web_sys::console::log_1(&text.into());
+    String::from("ZTc4655s_cg")
 }
 
 #[derive(Properties, PartialEq)]
@@ -104,4 +115,11 @@ fn video_section(props: &VideoSectionProps) -> Html {
 struct Video {
     id: String,
     name: String,
+}
+
+fn get_value_from_input_event(e: InputEvent) -> String {
+    let event: Event = e.dyn_into().unwrap_throw();
+    let event_target = event.target().unwrap_throw();
+    let target: HtmlInputElement = event_target.dyn_into().unwrap_throw();
+    target.value()
 }
