@@ -2,11 +2,13 @@ use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use web_sys::{Event, HtmlInputElement, InputEvent};
 use yew::virtual_dom::VNode;
 use yew::{
-    function_component, html, use_state, Callback, Html, MouseEvent, Properties,
-    UseStateHandle,
+    function_component, html, use_state, Callback, Html, MouseEvent, Properties, UseStateHandle,
 };
 
+use crate::youtube::search_youtube;
+mod api;
 mod youtube;
+
 fn main() {
     yew::Renderer::<App>::new().render();
 }
@@ -14,14 +16,22 @@ fn main() {
 #[function_component(App)]
 fn app() -> Html {
     let video: UseStateHandle<Option<Video>> = use_state(|| None);
+
     let on_search: Callback<String> = {
         let video: UseStateHandle<Option<Video>> = video.clone();
         Callback::from(move |text| {
-            let video_id = search_youtube(text);
-            video.set(Some(Video {
-                id: video_id,
-                name: "nome".to_string(),
-            }))
+            let video: UseStateHandle<Option<Video>> = video.clone();
+            wasm_bindgen_futures::spawn_local(async move {
+                match search_youtube(text).await {
+                    Ok(video_item) => video.set(Some(Video {
+                        id: video_item.id.video_id,
+                        name: video_item.snippet.title,
+                    })),
+                    Err(e) => {
+                        web_sys::console::log_1(&e.to_string().into());
+                    }
+                }
+            });
         })
     };
 
@@ -87,11 +97,6 @@ fn input_section(props: &InputSectionProps) -> Html {
 #[derive(Properties, PartialEq)]
 struct InputSectionProps {
     on_search: Callback<String>,
-}
-
-fn search_youtube(text: String) -> String {
-    web_sys::console::log_1(&text.into());
-    String::from("ZTc4655s_cg")
 }
 
 #[derive(Properties, PartialEq)]

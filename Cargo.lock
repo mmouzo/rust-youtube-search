@@ -1089,7 +1089,10 @@ dependencies = [
 name = "youtube-search"
 version = "0.1.0"
 dependencies = [
+ "gloo-net",
+ "serde",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "web-sys",
  "yew 0.20.0",
  "yew_bulma_components",

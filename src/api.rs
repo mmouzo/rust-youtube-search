@@ -1,0 +1,1 @@
+pub static API_KEY : &str = "A_TUA_API_AQUI";
