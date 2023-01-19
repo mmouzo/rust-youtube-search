@@ -1,12 +1,14 @@
-# Buscador de YouTube en Rust 🦀
-Pequena Web App con Rust utilizando o framework Yew para procurar vídeos en YouTube.
-------------
+# Web App con Rust🦀 e Yew.
+Pequena Web App con Rust  utilizando o framework Yew para procurar vídeos en YouTube. 
 
-### IDE
-- JetBrains IntelliJ Idea Community
-- Visual Studio Code
+## Execución:
+- Agregar WebAssembly e Trunk tal e como se indica na páxina de [Yew](https://yew.rs/docs/getting-started/introduction "Yew").
 
-### Linguaxes e Frameworks
-- Rust
-- HTML
-- [Yew](https://yew.rs/ "Yew")
+- Inserir a túa API de YouTube no ficheiro api.rs:
+
+	`pub static API_KEY: &str = "API_KEY";`
+
+- Executar a app:
+
+	`trunk serve`
+
